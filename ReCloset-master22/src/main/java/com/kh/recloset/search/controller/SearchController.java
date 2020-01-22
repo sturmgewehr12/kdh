@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.recloset.member.model.vo.Member;
 import com.kh.recloset.product.model.vo.Goods;
 import com.kh.recloset.search.model.service.SearchService;
-import com.kh.recloset.search.model.vo.SearchValue;
 import com.kh.recloset.searchRank.model.service.SearchRankService;
 
 @Controller
@@ -28,7 +27,7 @@ public class SearchController {
 	
 	@RequestMapping("/search/gnameSearch.ser")
 	public String gnameSearch(HttpSession session,
-							  @RequestParam(value="searchName", required = false ) String searchName,
+							  @RequestParam(value="searchName", defaultValue="false" ) String searchName,
 							  @RequestParam(value="category", required = false) int category, Model model) {
 		
 		
@@ -42,22 +41,16 @@ public class SearchController {
 			int result = searchService.insertSearch(searchName, userNo);
 		}
 		
-		SearchValue sv = new SearchValue();
-		sv.setSearchName(searchName);
-		sv.setCategory(category);
-
-		  System.out.println(sv);
-		  List<Goods> list = searchService.gnameSearch(sv);
-		  System.out.println(list);
+		  List<Goods> list = searchService.gnameSearch(searchName, category);
+		  
 		  model.addAttribute("goods", list);	
 		  
 		  
 		  return "product/productList";
 	}
-	
 	@RequestMapping("/search/sellerSearch.ser")
 	public String sellerSearch(HttpSession session,
-							   @RequestParam(value="searchName", required = false ) String searchName,
+							   @RequestParam(value="searchName", defaultValue= "false" ) String searchName,
 			  				   @RequestParam(value="category", required = false) int category, Model model) {
 	
 		
@@ -78,11 +71,9 @@ public class SearchController {
 		}
 		
 		
-		SearchValue sv = new SearchValue();
-		sv.setSearchName(searchName);
-		sv.setCategory(category);
-		  List<Goods> list = searchService.sellerSearch(sv);
-		  System.out.println(list);
+		List<Goods> list = searchService.sellerSearch(searchName, category);
+		  
+		  
 		  model.addAttribute("goods", list);	
 		  
 		  

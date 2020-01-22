@@ -4,7 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- Header -->
-	<header> 
+	<header>
+	
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+	
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
@@ -35,20 +38,10 @@
 								Logout
 							</a>
 						</c:if>
-
+						
 						<a href="${pageContext.request.contextPath }/myPage.do" class="flex-c-m trans-04 p-lr-25">
 								My Page
 						</a>
-						<c:if test="${ member.userCodeNo == 2 }">
-						<a href="${pageContext.request.contextPath }/sellerPage.do" class="flex-c-m trans-04 p-lr-25">
-								Seller Page
-						</a>
-						</c:if>
-						<c:if test="${ member.userCodeNo == 3 }">
-						<a href="${pageContext.request.contextPath }/adminPage.do" class="flex-c-m trans-04 p-lr-25">
-								Admin Page
-						</a>
-						</c:if>
 						
 						<a href="${pageContext.request.contextPath }/help.do" class="flex-c-m trans-04 p-lr-25">
 							Help & FAQs
@@ -70,7 +63,6 @@
 						<ul class="main-menu">
 							<li class="active-menu">
 								<a href="${pageContext.request.contextPath}">Home</a>
-								
 							</li>
 
 							<li>
@@ -81,32 +73,33 @@
 								<a href="${pageContext.request.contextPath }/cart/features.do">Features</a>
 							</li>
 
-							<c:if test="${ member.userCodeNo == 2 }">
 							<li>
-								<a href="${pageContext.request.contextPath }/sellerInfo.do?userId=${member.userId}">
-										Seller
-								</a>
+								<%-- <a href="${pageContext.request.contextPath }/sellerInfo.do">Seller</a> --%>
+								<c:set var="sellerUserNo" value="1"/>
+								<a href="${pageContext.request.contextPath }/default2.do?sellerUserNo=${sellerUserNo}">Seller</a>
 							</li>
-							</c:if>
-							
+
 							<li>
 								<a href="about.html">About</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="${pageContext.request.contextPath }/gogogogo.do">Contact</a>
 							</li>
 						</ul>
 					</div>	
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
 
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<a href="${pageContext.request.contextPath }/like/likePage.do?userNo=${member.userNo}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti go-like-List" data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
 					</div>
@@ -129,11 +122,11 @@
 					<i class="zmdi zmdi-search"></i>
 				</div>
 				
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="0">
 					<i class="zmdi zmdi-shopping-cart"></i>
 				</div>
 				
-				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
+				<a href="${pageContext.request.contextPath}/like/likePage.do" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti go-like-List" data-notify="0">
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 				
@@ -231,4 +224,24 @@
 				</form>
 			</div>
 		</div>
+		<script>
+		$(function(){
+			
+			var userNo = "${member.userNo}";
+			
+	 		 $.ajax({
+       	      url: "${pageContext.request.contextPath}/like/myLikeCount.do",
+       	      data: {
+       	         userNo : userNo,
+       	      },
+       	      success: function(data){
+       	    	  
+       	    	  console.log("datadatadatadatadatadatadata : "+data);
+
+       	         $('.go-like-List').attr("data-notify", data);
+
+       	      }
+       	   });
+	 	})
+		</script>
 	</header>

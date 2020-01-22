@@ -10,21 +10,20 @@
 		<c:param name="titleName" value="상품 페이지"/>
 	</c:import>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
- 
+
 	
 <style>
 	#loadMoreBtn {
 		cursor : pointer;
 	}
- 
+
 </style>
 	
 </head>
 <body class="animsition">
 	<c:import url="../common/header.jsp"/>
 	<c:import url="../common/cart.jsp"/>
-	<c:import url="../common/search.jsp"/>
-	 
+	
 	<br><br><br>
 	
 		<!-- Product -->
@@ -287,8 +286,8 @@
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 ${ goods.categoryCode == 1 ? 'Item' : goods.categoryCode == 2 ? 'acc' : goods.categoryCode == 3 ? 'woman' : goods.categoryCode == 4 ? 'men' : 'etc' }">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 d-flex" style="height : 320px;">
-							<img class="mx-auto my-auto" src="${ pageContext.request.contextPath }/resources/uploadimg/${goods.changeName}">
+						<div class="block2-pic hov-img0">
+							<img src="${ pageContext.request.contextPath }/resources/uploadimg/${goods.changeName}">
 
 							<a href="${pageContext.request.contextPath}/product/productView.do?goodsNo=${goods.goodsNo}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 								Detail View
@@ -308,7 +307,7 @@
 
 							<c:if test="${!empty member}">
 							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="${pageContext.request.contextPath}/product/productView.do" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+								<a href="${pageContext.request.contextPath}/product/productView.do" class="btn-addwish-b2 dis-block pos-relative">
 									<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath}/resources/images/icons/icon-heart-01.png" alt="ICON">
 									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath}/resources/images/icons/icon-heart-02.png" alt="ICON">
 								</a>
@@ -378,7 +377,7 @@
 						var $div1 = $('<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ' + 
 								(data[i].categoryCode == 2 ? 'acc' : data[i].categoryCode == 3 ? 'woman' : data[i].categoryCode == 4 ? 'men' : 'etc') + '">');
 						var $div2 = $('<div class="block2">');
-						var $div2_1 = $('<div class="block2-pic hov-img0" style="height : 320px;">');
+						var $div2_1 = $('<div class="block2-pic hov-img0">');
 						var $div2_1_1 = $('<img src="${pageContext.request.contextPath}/resources/uploadimg/' + data[i].changeName + '" alt="IMG-PRODUCT">');
 						var $div2_1_2 = $('<a href="${pageContext.request.contextPath}/product/productView.do?goodsNo='+data[i].goodsNo+'" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">').text('Quick View');
 						
@@ -388,7 +387,7 @@
 						var $div3_1_2 = $('<span class="stext-105 cl3">').text('￦' + numberWithCommas(data[i].gPrice));
 						
 						var $div3_2 = $('<div class="block2-txt-child2 flex-r p-t-3">');
-						var $div3_2_1 = $('<a href="${pageContext.request.contextPath}/product/productView.do" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">');
+						var $div3_2_1 = $('<a href="${pageContext.request.contextPath}/product/productView.do" class="btn-addwish-b2 dis-block pos-relative">');
 						var $div3_2_1_1 = $('<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath}/resources/images/icons/icon-heart-01.png" alt="ICON">');
 						var $div3_2_1_2 = $('<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath}/resources/images/icons/icon-heart-02.png" alt="ICON">');
 						

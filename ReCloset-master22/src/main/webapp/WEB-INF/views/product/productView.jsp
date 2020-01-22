@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
 	<c:import url="../common/commonUtil.jsp">
 		<c:param name="titleName" value="제품 상세 페이지"/>
@@ -21,7 +21,6 @@
 <body class="animsition">
 	<c:import url="../common/header.jsp"/>
 	<c:import url="../common/cart.jsp"/>
-	<c:import url="../common/search.jsp"/>
 	
 	<br><br><br>
 	
@@ -115,9 +114,9 @@
 						
 						<div class="flex-w flex-r-m p-b-10">
 							<div class="col-12 p-b-5">
-									<label class="stext-102 cl3" for="userId" align="left">작성자</label>
-									<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="userId" type="submit" name="userId" 
-									value="${goods.userId}" formaction="${pageContext.request.contextPath }/sellerInfo.do" readonly required />
+								<label class="stext-102 cl3" for="userId" align="left">작성자</label>
+								<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="userId" type="submit" name="userId" 
+								value="${goods.userId}" formaction="#" readonly required />
 							</div>
 						</div>
 						<br />
@@ -135,9 +134,9 @@
 						<!-- sns 태그들 -->
 						<div class="flex-w flex-m p-l-170 p-t-40 respon7">
 							<div class="flex-m bor9 p-r-10 m-r-11">
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+								<p class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100" id="likeList" data-tooltip="Add to Wishlist">
 									<i class="zmdi zmdi-favorite"></i>
-								</a>
+								</p>
 							</div>
 							<a href="https://www.facebook.com/" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook" target="_blank">
 								<i class="fa fa-facebook"></i>
@@ -190,8 +189,8 @@
 	
 	
 	<script>
-	   var userNo = '${member.userNo }'
-           var goodsNo = '${goods.goodsNo }'
+	    var userNo = '${member.userNo }'
+        var goodsNo = '${goods.goodsNo }'
            
            function addCart(){
               $.ajax({
@@ -220,6 +219,112 @@
               
               
            }
+           
+        $(function(){
+        	   
+        	   
+        	   $.ajax({
+        	      url: "${pageContext.request.contextPath}/like/checkLike.do",
+        	      data: {
+        	         userNo : userNo,
+        	         goodsNo : goodsNo
+        	      },
+        	      dataType: "json",
+        	      async: false,
+        	      success: function(data){
+        	         
+        	         if(data.like.lStatus == 'Y'){
+        	            $("#likeList").css("color", "red");
+        	         }
+        	         
+        	      }
+        	   });
+        	   
+        	});
+
+        	$("#likeList").on("click", function(){
+        	   
+        	   var userNo = "${member.userNo}";
+        	   var bNo = "${goods.goodsNo}";
+        	   
+        	   $.ajax({
+        	      url: "${pageContext.request.contextPath}/like/checkLike.do",
+        	      data: {
+        	         userNo : userNo,
+        	         goodsNo : goodsNo
+        	      },
+        	      dataType: "json",
+        	      async: false,
+        	      success: function(data){
+        	         
+        	         /* console.log(data);
+        	         console.log(data.like);
+        	         console.log(data.like.lStatus);  */
+        	        
+        	         var lStatus = data.like.lStatus;
+        	         
+        	         if(lStatus == null || lStatus == 'N'){
+        	            $.ajax({
+        	               url: "${pageContext.request.contextPath}/like/likeInsert.do",
+        	               data: {
+        	                   lStatus : lStatus,
+        	                   goodsNo : goodsNo,
+        	                   userNo : userNo,
+        	                },
+        	                async: false,
+        	                success: function(data){
+        	                   if(data == 1){
+        	                      alert("찜 목록에 추가 되었습니다.");
+        	                       $("#likeList").css("color", "red");
+        	                       
+        	                        var text = $('#likeList').text(); 
+        	                       
+        	                       $.ajax({
+        	                          url: "${pageContext.request.contextPath}/like/myLikeCount.do",
+        	                          data: {
+        	                        	  userNo: userNo
+        	                          },
+        	                          async: false,
+        	                          success: function(data){
+        	                        	  console.log(data);
+        	                        	  $('.go-like-List').attr("data-notify", data);
+        	                          }
+        	                       }); 
+        	                   }
+        	                }
+        	            });
+        	         } else {
+        	            $.ajax({
+        	               url: "${pageContext.request.contextPath}/like/cancelLike.do",
+        	               data: {
+        	                  userNo : userNo,
+        	                  goodsNo : goodsNo
+        	               },
+        	               async: false,
+        	               success: function(data){
+        	                  if(data == 1) {
+        	                     alert("좋아요를 취소하였습니다.");
+        	                       $("#likeList").css("color", "#717fe0");
+        	                       
+        	                        $.ajax({
+        	                          url: "${pageContext.request.contextPath}/like/myLikeCount.do",
+        	                          data: {
+        	                        	  userNo : userNo
+        	                          },
+        	                          async: false,
+        	                          success: function(data){
+        	                        	  console.log("취소 데이타 : " + data)
+        	                        	  $('.go-like-List').attr("data-notify", data);
+        	                             $('#likeList').html('<i class="fa fa-heart"></i>&nbsp;&nbsp;');
+        	                          }
+        	                       }); 
+        	                  }
+        	               }
+        	            });
+        	         }
+        	      }
+        	   });
+        	});
            
            function goOrderForm(){
               location.href = '${pageContext.request.contextPath}/order/orderFormOne.do?userNo='+userNo+'&goodsNo='+goodsNo;

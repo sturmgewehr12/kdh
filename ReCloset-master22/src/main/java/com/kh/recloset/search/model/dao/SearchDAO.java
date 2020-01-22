@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recloset.search.model.vo.Search;
-import com.kh.recloset.search.model.vo.SearchValue;
 
 @Repository
 public class SearchDAO {
@@ -22,23 +21,22 @@ public class SearchDAO {
 		return sqlSession.insert("searchPage-mapper.insertSearch", search);
 	}
 	
-	public List<Object> gnameSearch (SearchValue sv) {
+	public List<Object> gnameSearch (String searchName, int category) {
 		/*
 		 * System.out.println("category : " + category);
 		 * System.out.println("searchName : " + searchName);
 		 */	
 		
-		
-		return sqlSession.selectList("searchPage-mapper.gnameSearch", sv);
+		return sqlSession.selectList("searchPage-mapper.gnameSearch");
 	}
 	
-	public List<Object> sellerSearch (SearchValue sv) {
+	public List<Object> sellerSearch (String searchName, int category) {
 		
 		/*
 		 * System.out.println("category : " + category);
 		 * System.out.println("searchName : " + searchName);
 		 */
-		return sqlSession.selectList("searchPage-mapper.sellerSearch", sv);
+		return sqlSession.selectList("searchPage-mapper.sellerSearch");
 	}
 
 	public int insertSearch(String searchName, int userNo) {

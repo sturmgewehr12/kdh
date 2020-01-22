@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.recloset.search.model.dao.SearchDAO;
 import com.kh.recloset.search.model.vo.Search;
-import com.kh.recloset.search.model.vo.SearchValue;
 
 @Service
 public class SearchService {
@@ -16,24 +15,22 @@ public class SearchService {
 	SearchDAO searchDAO;
 	
 	
-	public List gnameSearch(SearchValue sv) {
+	public List gnameSearch(String searchName, int category) {
 		
-		/*
-		 * System.out.println("category : " + category);
-		 * System.out.println("searchName : " + searchName);
-		 */
+		System.out.println("category : " + category);
+		System.out.println("searchName : " + searchName);
 		
 		
-		return searchDAO.gnameSearch(sv);
+		return searchDAO.gnameSearch(searchName, category);
 	}
 	
-	public List sellerSearch(SearchValue sv) {
-		/*
-		 * System.out.println("category : " + category);
-		 * System.out.println("searchName : " + searchName);
-		 */
+	public List sellerSearch(String searchName, int category) {
 		
-		return searchDAO.sellerSearch(sv);
+		System.out.println("category : " + category);
+		System.out.println("searchName : " + searchName);
+		
+		
+		return searchDAO.sellerSearch(searchName, category);
 	}
 
 	public int insertSearch(String searchName, int userNo) {
