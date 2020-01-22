@@ -6,11 +6,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DefaultController {
 
-	@RequestMapping("/default.do")
-	public String defaultPage() {
+	@RequestMapping("/termsofUse.do")
+	public String termsofUsePage() {
 		
-		return "default/default";
+		return "common/termsofUse";
 		
 	}
+	
+	@RequestMapping("/service.do")
+	public String servicePage() {
+		
+		return "common/service";
+	}
+	
+	@RequestMapping("/userterms.do")
+	public String userPage() {
+		
+		return "common/userterms";
+	}
+	
+	
 	
 }
